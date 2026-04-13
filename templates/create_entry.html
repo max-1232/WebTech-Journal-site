@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>{{ title }}</h2>
+    <form method="POST">
+        <label>Titel</label>
+        <input type="text" name="title" value="{{ entry.title if entry else '' }}" required>
+        <label>Inhoud</label>
+        <textarea name="content" rows="10" style="width:100%">{{ entry.content if entry else ''}}</textarea>
+        <button type="submit">Opslaan</button>
+    </form>
+{% endblock %}

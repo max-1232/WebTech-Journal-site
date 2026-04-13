@@ -1,25 +1,37 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <title>Mijn Journal - Home</title>
-    <style>
-        body { font-family: sans-serif; margin: 40px; background-color: #f4f4f4; }
-        .user-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; shadow: 2px 2px 5px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-    </style>
-</head>
-<body>
-    <h1>Welkom bij de Journal App</h1>
-    <p>Geregistreerde gebruikers in de database:</p>
+{% extends "base.html" %}
 
-    {% for user in users %}
-        <div class="user-card">
-            <strong>Naam:</strong> {{ user.username }} <br>
-            <strong>Email:</strong> {{ user.email }}
-        </div>
+{% block content %}
+    <h1>Welkom bij jouw Journal</h1>
+
+    {% if current_user.is_authenticated %}
+        <p>Hallo {{ current_user.username }}! Hier zijn jouw persoonlijke verhalen:</p>
+        
+        <a href="{{ url_for('new_entry') }}" style="display: inline-block; background: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
+            + Schrijf een nieuw bericht
+        </a>
+
+        {% for entry in entries %}
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; border-left: 5px solid #007bff;">
+                <h2 style="margin-top: 0;">{{ entry.title }}</h2>
+                <small>Geplaats op: {{ entry.date_posted.strftime('%d-%m-%Y') }}</small>
+                <p>{{ entry.content }}</p>
+                
+                <hr>
+                <a href="{{ url_for('update_entry', entry_id=entry.id) }}" style="color: orange; font-weight: bold; text-decoration: none;">Bewerken</a>
+                
+                <form action="{{ url_for('delete_entry', entry_id=entry.id) }}" method="POST" style="display:inline; margin-left: 10px;">
+                    <button type="submit" style="background: none; border: none; color: red; cursor: pointer; font-weight: bold; padding: 0;">Verwijderen</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Je hebt nog geen berichten geschreven. Begin vandaag nog!</p>
+        {% endfor %}
+
     {% else %}
-        <p>Er zijn nog geen gebruikers gevonden.</p>
-    {% endfor %}
-</body>
-</html>
+        <div style="text-align: center; padding: 40px;">
+            <h2>Houd je eigen digitale dagboek bij.</h2>
+            <p>Meld je aan of log in om te beginnen met schrijven.</p>
+            <a href="{{ url_for('login') }}">Inloggen</a> | <a href="{{ url_for('register') }}">Registreren</a>
+        </div>
+    {% endif %}
+{% endblock %}
