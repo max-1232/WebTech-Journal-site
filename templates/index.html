@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mijn Journal - Home</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; background-color: #f4f4f4; }
+        .user-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Welkom bij de Journal App</h1>
+    <p>Geregistreerde gebruikers in de database:</p>
+
+    {% for user in users %}
+        <div class="user-card">
+            <strong>Naam:</strong> {{ user.username }} <br>
+            <strong>Email:</strong> {{ user.email }}
+        </div>
+    {% else %}
+        <p>Er zijn nog geen gebruikers gevonden.</p>
+    {% endfor %}
+</body>
+</html>
