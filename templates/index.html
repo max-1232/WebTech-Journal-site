@@ -6,7 +6,7 @@
     {% if current_user.is_authenticated %}
     <h1>Welkom bij jouw Journal</h1>
         <p>Hallo {{ current_user.username }}! Hier zijn jouw persoonlijke verhalen:</p>
-        <a href="{{ url_for('new_entry') }}" class="fab" title="Nieuw Bericht">
+        <a href="{{ url_for('entries.new_entry') }}" class="fab" title="Nieuw Bericht">
             + Nieuw bericht
         </a>
         
@@ -17,9 +17,9 @@
                 <p>{{ entry.content }}</p>
                 <small>Geplaats op: {{ entry.date_posted.strftime('%d-%m-%Y') }} om {{ entry.date_posted.strftime('%H:%M') }}</small>
                 <hr>
-                <a href="{{ url_for('update_entry', entry_id=entry.id) }}" style="color: orange; font-weight: bold; text-decoration: none;">Bewerken</a>
+                <a href="{{ url_for('entries.update_entry', entry_id=entry.id) }}" style="color: orange; font-weight: bold; text-decoration: none;">Bewerken</a>
                 
-                <form action="{{ url_for('delete_entry', entry_id=entry.id) }}" method="POST" style="display:inline; margin-left: 10px;">
+                <form action="{{ url_for('entries.delete_entry', entry_id=entry.id) }}" method="POST" style="display:inline; margin-left: 10px;">
                     <button type="submit" style="background: none; border: none; color: red; cursor: pointer; font-weight: bold; padding: 0;">Verwijderen</button>
                 </form>
             </div>
@@ -31,7 +31,7 @@
         <div style="text-align: center; padding: 40px;">
             <h2>Houd je eigen digitale dagboek bij.</h2>
             <p>Meld je aan of log in om te beginnen met schrijven.</p>
-            <a href="{{ url_for('login') }}">Inloggen</a> | <a href="{{ url_for('register') }}">Registreren</a>
+            <a href="{{ url_for('auth.login') }}">Inloggen</a> | <a href="{{ url_for('auth.register') }}">Registreren</a>
         </div>
     {% endif %}
 {% endblock %}
