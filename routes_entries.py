@@ -1,26 +1,25 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from models import Entry, db
 from flask_login import current_user, login_required
-
+# aanmaken van de blueprint voor de app.py file
 entries_bp = Blueprint('entries', __name__)
 
 @entries_bp.route('/entry/new', methods=["GET", "POST"])
 def new_entry():
-    if request.method == 'POST':
+    """Functie waarmee nieuwe entries gemaakt kunnen worden die worden opgeslagen in de database"""
+    if request.method == 'POST': # ontvangt de ingevulde titel en content van de entry
         title = request.form.get('title')
         content = request.form.get('content')
 
-    # Validatie: Check of velden niet None of leeg zijn (voorkomt Pylance errors)
+    # Geeft een melding dat de titel verplicht is als deze niet is ingevuld maar wel een content
         if not title or not content:
             flash("Titel en inhoud zijn verplicht!", "danger")
-            return redirect(url_for('new_entry'))
+            return redirect(url_for('entries.new_entry'))
 
     # Maak de nieuwe entry aan en koppel deze aan de huidige gebruiker via current_user.id
         entry = Entry(title=title, content=content, user_id=current_user.id) #type: ignore
-    
         db.session.add(entry)
-        db.session.commit()
-        
+        db.session.commit() # Voegt de gegevens toe aan de database en slaat deze op
         flash("Je bericht is geplaatst!", "success")
         return redirect(url_for('main.home'))
     return render_template('create_entry.html', title='Nieuw Bericht')
@@ -28,7 +27,9 @@ def new_entry():
 @entries_bp.route("/entry/<int:entry_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_entry(entry_id):
+    """Functie om een entry te bewerken en om deze opnieuw op te slaan"""
     entry = Entry.query.get_or_404(entry_id)
+    # Geeft een error als de user_id niet gelijk is aan de opgeslagen id die past bij de entry
     if entry.author != current_user:
         return "Dit is niet jouw bericht!", 403
     if request.method == 'POST':
