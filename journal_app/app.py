@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, make_response
-from models import db, User, Entry
+from journal_app.models import db, User, Entry
 import os
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from routes_entries import entries_bp
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -17,6 +17,10 @@ db.init_app(app)
 login_manager: LoginManager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login' # type: ignore
+
+app.register_blueprint(entries_bp)
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -84,6 +88,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Je bent nu uitgelogd!', "success")
     return redirect(url_for('home'))
 
 @app.route("/entry/new", methods=['GET', 'POST'])
@@ -120,6 +125,7 @@ def update_entry(entry_id):
         entry.title = request.form.get('title')
         entry.content = request.form.get('content')
         db.session.commit()
+        flash("Je bericht is succesvol bewerkt!", "success")
         return redirect(url_for('home'))
     return render_template('create_entry.html', title='Update Entry', entry=entry)
 

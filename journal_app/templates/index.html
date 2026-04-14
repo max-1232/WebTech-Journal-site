@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welkom bij jouw Journal</h1>
+    
 
     {% if current_user.is_authenticated %}
+    <h1>Welkom bij jouw Journal</h1>
         <p>Hallo {{ current_user.username }}! Hier zijn jouw persoonlijke verhalen:</p>
-        
-        <a href="{{ url_for('new_entry') }}" style="display: inline-block; background: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
-            + Schrijf een nieuw bericht
+        <a href="{{ url_for('new_entry') }}" class="fab" title="Nieuw Bericht">
+            + Nieuw bericht
         </a>
+        
 
         {% for entry in entries %}
             <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; border-left: 5px solid #007bff;">
                 <h2 style="margin-top: 0;">{{ entry.title }}</h2>
-                <small>Geplaats op: {{ entry.date_posted.strftime('%d-%m-%Y') }}</small>
                 <p>{{ entry.content }}</p>
-                
+                <small>Geplaats op: {{ entry.date_posted.strftime('%d-%m-%Y') }} om {{ entry.date_posted.strftime('%H:%M') }}</small>
                 <hr>
                 <a href="{{ url_for('update_entry', entry_id=entry.id) }}" style="color: orange; font-weight: bold; text-decoration: none;">Bewerken</a>
                 
