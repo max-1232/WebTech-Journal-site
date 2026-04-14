@@ -32,11 +32,12 @@ def load_user(user_id):
 
 if __name__ == "__main__":
     with app.app_context():
+        # Maakt de database aan
         db.create_all()
+        # Voegt user1 toe aan de User tabel als de database leeg is
         user1 = User(username="Max", email="max@hanze", password="max") 
         if User.query.count() == 0:
-            print("Database is leeg, test-gebruikers toevoegen...")
-            
+            print("Database is leeg, test-gebruikers toevoegen...")          
             db.session.add(user1)
             db.session.commit()
             print("Gebruiker succesvol toegevoegd!")
