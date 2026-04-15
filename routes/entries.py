@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 # aanmaken van de blueprint voor de app.py file
 entries_bp = Blueprint('entries', __name__)
 
+# Route aanmaken voor nieuwe entries 
 @entries_bp.route('/entry/new', methods=["GET", "POST"])
 def new_entry():
     """Functie waarmee nieuwe entries gemaakt kunnen worden die worden opgeslagen in de database"""
@@ -24,11 +25,13 @@ def new_entry():
         return redirect(url_for('main.home'))
     return render_template('create_entry.html', title='Nieuw Bericht')
 
+# Route aanmaken om entries te bewerken 
 @entries_bp.route("/entry/<int:entry_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_entry(entry_id):
     """Functie om een entry te bewerken en om deze opnieuw op te slaan"""
     entry = Entry.query.get_or_404(entry_id)
+
     # Geeft een error als de user_id niet gelijk is aan de opgeslagen id die past bij de entry
     if entry.author != current_user:
         return "Dit is niet jouw bericht!", 403
@@ -40,13 +43,17 @@ def update_entry(entry_id):
         return redirect(url_for('main.home'))
     return render_template('create_entry.html', title='Update Entry', entry=entry)
 
+# Route aanmaken om entries te verwijderen
 @entries_bp.route("/entry/<int:entry_id>/delete", methods=['POST'])
 @login_required
 def delete_entry(entry_id):
+    """Functie die entries verwijdert en uit de database haalt.
+    Kijkt of de entry bij de ingelogde user hoort."""
     entry = Entry.query.get_or_404(entry_id)
     if entry.author != current_user:
         return "Niet toegestaan", 403
     
     db.session.delete(entry)
     db.session.commit()
+    flash("Je bericht is succesvol verwijderd!", )
     return redirect(url_for('main.home'))

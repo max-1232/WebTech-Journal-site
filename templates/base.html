@@ -3,14 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Journal Site</title>
+        <!-- Bootstrap import -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Style voor de navigatiebalk boven aan -->
         <style>
             body { background-color: #f8f9fa; }
             .navbar-brand { font-weight: bold; }
-
+            /* Style voor de knop Nieuw bericht als je bent ingelogd */
             .fab {
                 position: fixed;
                 bottom: 30px;
@@ -32,18 +34,17 @@
             }
 
             .fab:hover {
-                transform: scale(1.05); /* De knop wordt iets groter als je eroverheen gaat */
+                transform: scale(1.05); 
                 background-color: #218838;
                 color: white;
             }  
-
         </style>
     </head>
 <body>
-
+<!-- Knoppen op de navigatiebalk boven laten werken en linken met de verschillende routes -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.home') }}">📓 MyJournal</a>
+            <a class="navbar-brand" href="{{ url_for('main.home') }}">MyJournal</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -69,7 +70,7 @@
             </div>
         </div>
     </nav>
-
+<!-- Basis voor meldingen als iets succesvol is of als er iets mis ging -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category, message in messages %}
@@ -81,6 +82,7 @@
     {% endif %}
 {% endwith %}
 
+<!-- Hier komt de content van de andere routes -->
     <div class="container">
         {% block content %}{% endblock %}
     </div>

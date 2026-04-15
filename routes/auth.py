@@ -30,6 +30,7 @@ def register() -> str:
         new_user = User(username=username, email=email, password=hashed_pw)
         db.session.add(new_user) 
         db.session.commit() # Slaat de nieuwe gebruiker op en print dit
+        flash(f'Je account is geregistreerd! Je kunt nu inloggen', "success")
         print("Gebruiker opgeslagen?")
 
         # Na de registratie wordt de user terug gestuurd naar de home pagine

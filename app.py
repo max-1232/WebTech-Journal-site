@@ -3,9 +3,9 @@ from models import db, User, Entry
 import os
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from routes_entries import entries_bp
-from routes_auth import auth_bp
-from routes_main import main_bp
+from routes.entries import entries_bp
+from routes.auth import auth_bp
+from routes.main import main_bp
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

@@ -1,8 +1,6 @@
 {% extends "base.html" %}
-
 {% block content %}
-    
-
+<!-- Als de gebruiker is ingelogd staat hier de naam van de gebruiker en alle geschreven verhalen -->
     {% if current_user.is_authenticated %}
     <h1>Welkom bij jouw Journal</h1>
         <p>Hallo {{ current_user.username }}! Hier zijn jouw persoonlijke verhalen:</p>
@@ -10,7 +8,7 @@
             + Nieuw bericht
         </a>
         
-
+        <!-- Hier staan alle verhalen -->
         {% for entry in entries %}
             <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; border-left: 5px solid #007bff;">
                 <h2 style="margin-top: 0;">{{ entry.title }}</h2>
@@ -23,10 +21,11 @@
                     <button type="submit" style="background: none; border: none; color: red; cursor: pointer; font-weight: bold; padding: 0;">Verwijderen</button>
                 </form>
             </div>
+        <!-- Voor als er nog geen verhalen aanwezig zijn, staat dat hier aangegeven -->
         {% else %}
-            <p>Je hebt nog geen berichten geschreven. Begin vandaag nog!</p>
+            <p>Je hebt nog geen verhaal geschreven. Druk op <b>Nieuw bericht</b> om je eerste bericht te schrijven!</p>
         {% endfor %}
-
+    <!-- Als de gebruiker nog niet is ingelogd, komt dit scherm waar de gebruiker kan inloggen of zich kan registreren -->
     {% else %}
         <div style="text-align: center; padding: 40px;">
             <h2>Houd je eigen digitale dagboek bij.</h2>

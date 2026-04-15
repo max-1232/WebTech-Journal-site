@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
         self.email = email
         self.password = password
 
+# Entry tabel waar alle verhalen/entries worden opgeslagen samen met de titel, datum en de user_id van de schrijver
 class Entry(db.Model):
     """Tabel voor de entries met een id, de titel, wanneer hij is geplaatst, de content van de entry en de user_id die gelinkt is met de user tabel"""
     id = db.Column(db.Integer, primary_key=True)
