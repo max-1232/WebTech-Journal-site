@@ -1,0 +1,17 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Omgevingen
+.venv/
+venv/
+env/
+
+# Databases (optioneel, maar aangeraden als je met een lege db wilt beginnen bij de docent)
+instance/
+*.db
+
+# OS specifieke bestanden
+.DS_Store
